@@ -2,6 +2,7 @@
 using ConsoleRpgEntities.Models.Characters;
 using ConsoleRpgEntities.Models.Characters.Monsters;
 using Microsoft.EntityFrameworkCore;
+using ConsoleRpgEntities.Models;
 
 namespace ConsoleRpgEntities.Data
 {
@@ -10,6 +11,7 @@ namespace ConsoleRpgEntities.Data
         public DbSet<Player> Players { get; set; }
         public DbSet<Monster> Monsters { get; set; }
         public DbSet<Ability> Abilities { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
 
         public GameContext(DbContextOptions<GameContext> options) : base(options)
         {
