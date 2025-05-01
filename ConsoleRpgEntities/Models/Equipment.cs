@@ -9,9 +9,9 @@ namespace ConsoleRpgEntities.Models
     public class Equipment
     {
         public int Id { get; set; }
-        public string? Weapon { get; set; }
+        public virtual string? Weapon { get; set; }
 
-        public string? Armor { get; set; }
+        public virtual string? Armor { get; set; }
 
     }
 
