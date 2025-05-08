@@ -63,24 +63,60 @@ namespace ConsoleRpg.Services
 
         private void AttackCharacter()
         {
-            if (_goblin is ITargetable targetableGoblin)
+            if (_goblin is Goblin goblin) // Cast to Goblin to access Health
             {
-                // Player attacks Goblin using weapon's attack power
-                if (_player?.Equipment?.Weapon != null)
+                // Player attacks Goblin
+                if (_player is Player player) // Cast to Player to access Health
                 {
-                    _outputManager.WriteLine($"{_player.Name} attacks {_goblin.Name} with {_player.Equipment.Weapon}, dealing 10 damage!", ConsoleColor.Yellow);
-                    _player.Attack(targetableGoblin);
+                    int playerAttackValue = GetWeaponAttackPower(player.Equipment?.Weapon);
+                    int goblinDefenseValue = GetArmorDefenseValue(null); // Goblin has no Equipment property
+
+                    int damageToGoblin = Math.Max(playerAttackValue - goblinDefenseValue, 0);
+                    goblin.Health -= damageToGoblin;
+
+                    _outputManager.WriteLine($"{player.Name} attacks {goblin.Name} with {(player.Equipment?.Weapon ?? "bare hands")}, dealing {damageToGoblin} damage!", ConsoleColor.Yellow);
+
+                    // Goblin retaliates and attacks the player
+                    int goblinAttackValue = 10; // Default goblin attack power
+                    int playerDefenseValue = GetArmorDefenseValue(player.Equipment?.Armor);
+
+                    int damageToPlayer = Math.Max(goblinAttackValue - playerDefenseValue, 0);
+                    player.Health -= damageToPlayer;
+
+                    _outputManager.WriteLine($"{goblin.Name} retaliates and attacks {player.Name}, dealing {damageToPlayer} damage!", ConsoleColor.Red);
                 }
                 else
                 {
-                    _outputManager.WriteLine($"{_player?.Name ?? "Unknown Player"} has no weapon equipped and cannot attack!", ConsoleColor.Red);
+                    _outputManager.WriteLine("Player is not initialized and cannot attack!", ConsoleColor.Red);
                 }
-
-                // Goblin retaliates and attacks the player
-                _goblin.Attack((ITargetable)_player!); // Explicit cast to ITargetable
+            }
+            else
+            {
+                _outputManager.WriteLine("No goblin to attack!", ConsoleColor.Red);
             }
         }
 
+        private int GetWeaponAttackPower(string? weaponName)
+        {
+            // Simulate weapon attack power based on weapon name
+            return weaponName switch
+            {
+                "Sword" => 15,
+                "Axe" => 20,
+                _ => 5 // Default attack power for bare hands or unknown weapons
+            };
+        }
+
+        private int GetArmorDefenseValue(string? armorName)
+        {
+            // Simulate armor defense value based on armor name
+            return armorName switch
+            {
+                "Shield" => 10,
+                "Leather Armor" => 5,
+                _ => 0 // Default defense value for no armor or unknown armor
+            };
+        }
 
         private void SetupGame()
         {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleRpgEntities.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20250422062316_AddEquipmentIDtoPlayersTable")]
-    partial class AddEquipmentIDtoPlayersTable
+    [Migration("20250502011556_AddEquipmentTable")]
+    partial class AddEquipmentTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

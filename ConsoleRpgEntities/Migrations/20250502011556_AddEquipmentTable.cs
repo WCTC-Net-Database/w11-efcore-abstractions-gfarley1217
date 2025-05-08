@@ -4,7 +4,7 @@
 
 namespace ConsoleRpgEntities.Migrations
 {
-    public partial class AddEquipmentIDtoPlayersTable : Migration
+    public partial class AddEquipmentTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -29,16 +29,24 @@ namespace ConsoleRpgEntities.Data
                 .HasDiscriminator<string>(pa => pa.AbilityType)
                 .HasValue<ShoveAbility>("ShoveAbility");
 
-            // Configure many-to-many relationship
+            // Configure many-to-many relationship between Player and Abilities
             modelBuilder.Entity<Player>()
                 .HasMany(p => p.Abilities)
                 .WithMany(a => a.Players)
                 .UsingEntity(j => j.ToTable("PlayerAbilities"));
 
+            // Configure one-to-one relationship between Player and Equipment
+            modelBuilder.Entity<Player>()
+                .HasOne(p => p.Equipment)
+                .WithOne()
+                .HasForeignKey<Equipment>(e => e.Id) // Assuming Equipment.Id is the foreign key
+                .OnDelete(DeleteBehavior.Cascade); // Cascade delete if a player is deleted
+
             base.OnModelCreating(modelBuilder);
         }
     }
 }
+
 
 
 
